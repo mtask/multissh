@@ -36,6 +36,6 @@ Script will be copied to server and then it's executed.
 
 Multissh's automation works best when authentication is done via ssh keys, but if you practise bad password handeling and have same password for multiple servers then you can run multissh with giving password only one time with [-p/--pass] switch. 
 
-Atm. default path to private key is "~/.ssh/id_rsa" so with different path/key-type it needs to be changed to code. It's coming up feature to set path in config file. If used with password auth and different authentication then ofc. password for every sever has tp be provided when connection is made.
+Atm. default path to private key is "~/.ssh/id_rsa" so with different path/key-type it needs to be changed to code. It's coming up feature to set path in config file. If used with password auth and different authentication then ofc. password for every sevrer has to be provided when connection is made.
 
 One version of multissh is also found as a module in my AdminToolkit repo.

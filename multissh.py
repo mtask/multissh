@@ -4,6 +4,10 @@ from fabric.api import *
 from fabric.tasks import execute
 import sys, os, argparse, getpass
 
+"""
+Author: mtask@github.com
+"""
+
 
 class multissh(object):
 
