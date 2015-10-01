@@ -4,9 +4,15 @@ If you need to operate with multiple servers through ssh then with Multissh you 
 
 ##Usage
 
+- Configuration
+
 Config your servers to multissh.conf with the following syntax(without ""), one server per line:
 
 "user@server=user"
+
+To use different port jus put port after server, e.g:
+
+ "user@server:1234=user"
 
 Servers can be commented out with "#" in front of the line.
 
