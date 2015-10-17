@@ -38,4 +38,4 @@ Multissh's automation works best when authentication is done via ssh keys, but i
 
 Atm. default path to private key is "~/.ssh/id_rsa" so with different path/key-type it needs to be changed to code. It's coming up feature to set path in config file. If used with password auth and different authentication then ofc. password for every sevrer has to be provided when connection is made.
 
-One version of multissh is also found as a module in my AdminToolkit repo.
+One version of multissh is also found as a module in my AdminShell repo.
