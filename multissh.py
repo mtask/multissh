@@ -34,15 +34,19 @@ class multissh(object):
 	           run("./"+script)
         
             
-    def run_cmd(self, cmd,sudo_=False, script=False, passw=False):
-    
+    def run_cmd(self, cmd,sudo_=False, script=False, passw=False,keypath=None):
         self.failed = []
         self.cmd = cmd
         self.servers,self.users = self.get_hosts()
         os.path.expanduser("~/")
+        
+        if keypath is None:
+            self.keypath = "~/.ssh/id_rsa"
+        else:
+            self.keypath = keypath
         for self.s, self.u in zip(self.servers, self.users):
-            if os.path.isfile("~/.ssh/id_rsa") and passw == False:
-                with settings(host_string=self.s, user=self.u, key_filename="~/.ssh/id_rsa"):
+            if os.path.isfile(self.keypath) and passw == False:
+                with settings(host_string=self.s, user=self.u, key_filename=self.keypath):
                     try:
                         if script:
                             if sudo_:
@@ -117,6 +121,7 @@ class multissh(object):
         self.parser.add_argument("-s", "--script", type=str, help="Run local script on servers")
         self.parser.add_argument("-S", "--sudo", action='store_true', help="Run with sudo")
         self.parser.add_argument("-p", "--passw", action='store_true', help="Set password if same in all logins")
+        self.parser.add_argument("-k", "--keypath", type=str, help="Give path to private keyfile")
         
         self.args = self.parser.parse_args()
         return self.args
@@ -126,16 +131,20 @@ class multissh(object):
         self.passw_ = False
         if self.arg.passw:
             self.passw_ = getpass.getpass("Give password> ")
+        if self.arg.keypath:
+           self.keypath = self.arg.keypath
+        else:
+            self.keypath = None        
         if self.arg.cmd:
              if self.arg.sudo:
-                 self.run_cmd(self.arg.cmd, sudo_=True,passw= self.passw_)
+                 self.run_cmd(self.arg.cmd, sudo_=True,passw= self.passw_, keypath=self.keypath)
              else:
                  self.run_cmd(self.arg.cmd, passw=self.passw_)
         if self.arg.script:
             if self.arg.sudo:
-                self.run_cmd(self.arg.script, sudo_=True, script=True, passw=self.passw_)
+                self.run_cmd(self.arg.script, sudo_=True, script=True, passw=self.passw_, keypath=self.keypath)
             else:
-                self.run_cmd(self.arg.script, script=True,passw=self.passw_)  
+                self.run_cmd(self.arg.script, script=True,passw=self.passw_, keypath=self.keypath)  
 
                                      
 if __name__=='__main__':
