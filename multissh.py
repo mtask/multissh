@@ -2,7 +2,10 @@
 
 from fabric.api import *
 from fabric.tasks import execute
-import sys, os, argparse, getpass
+import sys
+import os
+import argparse
+import getpass
 import ntpath
 
 """
