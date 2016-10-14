@@ -5,6 +5,7 @@ Run same command on multiple servers. SSH key base authentication is needed.
 ## Configuration
 
 - Servers
+
 Put your servers to multissh.conf with the following syntax(without ""), one server per line:
 
 "user@server=user"
@@ -36,3 +37,7 @@ $ python multissh.py -S "apt-get udate && apt-get upgrade"
 $ python multissh -s myscript.sh
 
 Script will be copied to server and then executed.
+
+- Other options
+
+   - List servers from config: python multissh.py -l
