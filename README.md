@@ -1,12 +1,11 @@
 #Multissh
 
-If you need to operate with multiple servers through ssh then with Multissh you can run needed commands only once and they will be executed on all your servers.
+Run same command on multiple servers. SSH key base authentication is needed.
 
-##Usage
+## Configuration
 
-- Configuration
-
-Config your servers to multissh.conf with the following syntax(without ""), one server per line:
+- Servers
+Put your servers to multissh.conf with the following syntax(without ""), one server per line:
 
 "user@server=user"
 
@@ -15,6 +14,12 @@ To use different port jus put port after server, e.g:
  "user@server:1234=user"
 
 Servers can be commented out with "#" in front of the line.
+
+- SSH key path
+
+To use different path than  "~/.ssh/id_rsa" set "keypath=path_to_rsa_key" to multissh.config. It doesn't matter if "path=" line is before or after servers.
+
+## Usage
 
 - Run multissh example:
 
@@ -30,12 +35,4 @@ $ python multissh.py -S "apt-get udate && apt-get upgrade"
 
 $ python multissh -s myscript.sh
 
-Script will be copied to server and then it's executed.
-
-###Other info
-
-Multissh's automation works best when authentication is done via ssh keys, but if you practise bad password handeling and have same password for multiple servers then you can run multissh with giving password only one time with [-p/--pass] switch. 
-
-Atm. default path to private key is "~/.ssh/id_rsa" so with different path/key-type it needs to be changed to code. It's coming up feature to set path in config file. If used with password auth and different authentication then ofc. password for every sevrer has to be provided when connection is made.
-
-One version of multissh is also found as a module in my AdminShell repo.
+Script will be copied to server and then executed.
