@@ -40,4 +40,8 @@ Script will be copied to server and then executed.
 
 - Other options
 
-   - List servers from config: python multissh.py -l
+   - -l/--list -> List servers from config: python multissh.py -l
+
+   - -a/--add -> Add server to multissh.conf: python multissh.py -a "user@newserver:2222=user"
+
+   - -d/--delete -> Delete server from multissh.conf. Use list command to get server's number: python multissh.py -d number
