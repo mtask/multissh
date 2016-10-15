@@ -39,7 +39,7 @@ $ python multissh -s myscript.sh
 
 - Copy file from local machine to servers:
 
-$ python multissh -s myscript.sh
+$ python multissh -cf /path/to/myfile.file
 
 
 Script will be copied to server and then executed.
