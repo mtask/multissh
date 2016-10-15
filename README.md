@@ -1,13 +1,14 @@
 #Multissh
 
-Run same command on multiple servers. SSH key base authentication is needed.
+Run command, script or copy files on multiple servers at same time.
 
 ## Configuration
 
 - Servers
 
-Put your servers to multissh.conf with the following syntax(without ""), one server per line:
+Add your ssh public key to server.
 
+Put your servers to multissh.conf with the following syntax(without ""), one server per line:
 "user@server=user"
 
 To use different port jus put port after server, e.g:
