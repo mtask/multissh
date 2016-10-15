@@ -33,9 +33,14 @@ Command with spaces needs to be wrapped inside "".
 
 $ python multissh.py -S "apt-get udate && apt-get upgrade"
 
-- Run local script on server(s):
+- Run local script on serves:
 
 $ python multissh -s myscript.sh
+
+- Copy file from local machine to servers:
+
+$ python multissh -s myscript.sh
+
 
 Script will be copied to server and then executed.
 

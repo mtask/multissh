@@ -5,7 +5,6 @@ from fabric.tasks import execute
 import sys
 import os
 import argparse
-import getpass
 import ntpath
 import fnmatch
 
@@ -93,7 +92,15 @@ class multissh(object):
             return (self.hosts, self.users, self.keypath)
 
 
-    def run_cmd(self, cmd,sudo_=False, script=False):
+    def run_cmd(self, cmd,sudo_=False, script=False, copy_file=""):
+
+        def file_base_name(path):
+            try:
+                file_name = ntpath.basename(path)
+                return file_name
+            except Exception as e:
+                raise e
+
         self.failed = []
         self.cmd = cmd
         self.servers,self.users, self.keypath = self.get_settings()
@@ -121,6 +128,12 @@ class multissh(object):
                         else:
                             run("./tempscript")
                             run("rm tempscript")
+                        return
+                    elif copy_file:
+                        self.base_name = file_base_name(copy_file)
+                        if os.path.isfile(copy_file):
+                            put(copy_file, self.base_name)
+                        return
                     else:
                         if sudo_:
                             sudo(self.cmd)
@@ -156,7 +169,7 @@ class multissh(object):
         self.parser.add_argument("-l", "--list", action='store_true', help="List servers")
         self.parser.add_argument("-a", "--add", type=str, help="Add server to config. Use syntax of multissh.config")
         self.parser.add_argument("-d", "--delete", type=str, help="Delete server from config. Use list switch to get server's number")
-        self.parser.add_argument("-cf", "--copy-file", type=str, help="Copy file to servers. Give local path as argument.")
+        self.parser.add_argument("-cf", "--copyfile", type=str, help="Copy file to servers. Give local path as argument.")
 
         self.args = self.parser.parse_args()
         return self.args
@@ -180,6 +193,8 @@ class multissh(object):
                 self.run_cmd(self.arg.script, sudo_=True, script=True)
             else:
                 self.run_cmd(self.arg.script, script=True)
+        if self.arg.copyfile:
+            self.run_cmd("",copy_file=self.arg.copyfile)
 
 
 if __name__=='__main__':
