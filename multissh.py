@@ -148,9 +148,9 @@ class multissh(object):
 
         if len(self.failed) == 0:
             if script:
-                print "Script executed on all servers"
+                print "[!] Script executed on all servers"
             else:
-                print "Command executed on all servers"
+                print "[!] Command executed on all servers"
         else:
             print "[!] Execution failed on:"
             for f in self.failed:
