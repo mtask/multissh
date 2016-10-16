@@ -46,6 +46,8 @@ Script will be copied to server and then executed.
 
 - Other options
 
+   - -yn/--yesno -> Check on every server if to run command on that server.
+
    - -l/--list -> List servers from config: python multissh.py -l
 
    - -a/--add -> Add server to multissh.conf: python multissh.py -a "user@newserver:2222=user"

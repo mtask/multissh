@@ -92,7 +92,7 @@ class multissh(object):
             return (self.hosts, self.users, self.keypath)
 
 
-    def run_cmd(self, cmd,sudo_=False, script=False, copy_file=""):
+    def run_cmd(self, cmd,sudo_=False, script=False, copy_file="", yesno=False):
 
         def file_base_name(path):
             try:
@@ -114,6 +114,10 @@ class multissh(object):
                 sys.exit(0)
 
         for self.s, self.u in zip(self.servers, self.users):
+            if yesno:
+                self.confirm = raw_input("Current server is "+self.s+". Run command?(y/N)")
+                if self.confirm.lower() != "y":
+                    continue
             with settings(host_string=self.s, user=self.u, key_filename=self.keypath):
                 try:
                     if script:
@@ -150,7 +154,10 @@ class multissh(object):
             if script:
                 print "[!] Script executed on all servers"
             else:
-                print "[!] Command executed on all servers"
+                if yesno:
+                    print "[!] Command executed on selected servers"
+                else:
+                    print "[!] Command executed on all servers"
         else:
             print "[!] Execution failed on:"
             for f in self.failed:
@@ -170,12 +177,17 @@ class multissh(object):
         self.parser.add_argument("-a", "--add", type=str, help="Add server to config. Use syntax of multissh.config")
         self.parser.add_argument("-d", "--delete", type=str, help="Delete server from config. Use list switch to get server's number")
         self.parser.add_argument("-cf", "--copyfile", type=str, help="Copy file to servers. Give local path as argument.")
+        self.parser.add_argument("-yn", "--yesno", action='store_true',  help="Ask on every server if to run command on it.")
 
         self.args = self.parser.parse_args()
         return self.args
 
     def main(self):
         self.arg = self.parse_args()
+        if self.arg.yesno:
+            yn = True
+        else:
+            yn = False
         if self.arg.add:
             self.manage_servers(add=True, param=self.arg.add)
         if self.arg.delete:
@@ -185,16 +197,16 @@ class multissh(object):
             sys.exit(0)
         if self.arg.cmd:
              if self.arg.sudo:
-                 self.run_cmd(self.arg.cmd, sudo_=True)
+                 self.run_cmd(self.arg.cmd, sudo_=True, yesno=yn)
              else:
-                 self.run_cmd(self.arg.cmd)
+                 self.run_cmd(self.arg.cmd, yesno=yn)
         if self.arg.script:
             if self.arg.sudo:
-                self.run_cmd(self.arg.script, sudo_=True, script=True)
+                self.run_cmd(self.arg.script, sudo_=True, script=True, yesno=yn)
             else:
-                self.run_cmd(self.arg.script, script=True)
+                self.run_cmd(self.arg.script, script=True, yesno=yn)
         if self.arg.copyfile:
-            self.run_cmd("",copy_file=self.arg.copyfile)
+            self.run_cmd("",copy_file=self.arg.copyfile, yesno=yn)
 
 
 if __name__=='__main__':
